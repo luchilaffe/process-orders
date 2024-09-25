@@ -10,4 +10,5 @@ public interface IOrderService {
     PurchaseOrder getOrderStatus(String orderId);
     void cancelOrder(String orderId);
 
+    PurchaseOrder processOrder(PurchaseOrder purchaseOrder);
 }

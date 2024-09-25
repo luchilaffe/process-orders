@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class OrderServiceImpl implements IOrderService {
 
     private static final String ORDER_NOT_FOUND = "Order Not Found";
+    private static final String PROCESSED = "PROCESSED";
     private final IOrderRepository orderRepository;
 
     public OrderServiceImpl (IOrderRepository orderRepository){
@@ -37,6 +38,12 @@ public class OrderServiceImpl implements IOrderService {
         );
         purchaseOrder.cancelOrder();
         orderRepository.save(purchaseOrder);
+    }
+
+    @Override
+    public PurchaseOrder processOrder(PurchaseOrder purchaseOrder) {
+        purchaseOrder.setStatus(PROCESSED);
+        return orderRepository.save(purchaseOrder);
     }
 
 }
