@@ -14,6 +14,7 @@ import java.util.List;
 @Component
 public class OrderReader  implements ItemReader<PurchaseOrder> {
 
+    private static final String PENDING = "PENDING";
     private final IOrderRepository orderRepository;
     private Iterator<PurchaseOrder> orderIterator;
 
@@ -24,7 +25,7 @@ public class OrderReader  implements ItemReader<PurchaseOrder> {
     @Override
     public PurchaseOrder read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
         if (orderIterator == null) {
-            List<PurchaseOrder> pendingOrders = orderRepository.findByStatus("PENDING");
+            List<PurchaseOrder> pendingOrders = orderRepository.findByStatus(PENDING);
             orderIterator = pendingOrders.iterator();
         }
         if (orderIterator.hasNext()) {

@@ -41,7 +41,7 @@ public class EmailService {
     private String generateEmailContent(Map<String, Object> model) {
         StringWriter writer = new StringWriter();
         try {
-            mustacheViewResolver.setViewNames("orders.mustache");
+            mustacheViewResolver.setViewNames("orderProcessed.mustache");
             mustacheViewResolver.setAttributesMap(model);
         } catch (Exception e) {
             throw new RuntimeException("Failed to generate email content", e);

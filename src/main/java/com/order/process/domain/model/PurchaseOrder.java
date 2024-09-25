@@ -28,7 +28,6 @@ public class PurchaseOrder {
 
     @OneToMany
     (cascade = CascadeType.ALL)
-    //@JoinColumn(name = "items_order_id")
     private List<ItemOrder> items;
 
 

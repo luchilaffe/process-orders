@@ -2,6 +2,7 @@ package com.order.process.infrastructure.controller;
 
 import com.order.process.application.IOrderService;
 import com.order.process.domain.model.PurchaseOrder;
+import jakarta.persistence.EntityExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,14 +19,18 @@ public class OrderRestController {
 
     @PostMapping
     public ResponseEntity<PurchaseOrder> createOrder(@RequestBody PurchaseOrder purchaseOrder){
-        PurchaseOrder newPurchaseOrder = orderService.createOrder(purchaseOrder);
-        return new ResponseEntity<>(newPurchaseOrder, HttpStatus.CREATED);
+        try  {
+            PurchaseOrder newPurchaseOrder = orderService.createOrder(purchaseOrder);
+            return new ResponseEntity<>(newPurchaseOrder, HttpStatus.CREATED);
+        } catch (EntityExistsException e) {
+            return new ResponseEntity<>(null, HttpStatus.CONFLICT);
+        }
     }
 
     @GetMapping("{orderId}")
-    public ResponseEntity<PurchaseOrder> getOrderStatus(@PathVariable String orderId) {
-        PurchaseOrder purchaseOrder = orderService.getOrderStatus(orderId);
-        return ResponseEntity.ok(purchaseOrder);
+    public ResponseEntity<String> getOrderStatus(@PathVariable String orderId) {
+        PurchaseOrder purchaseOrder = orderService.getOrder(orderId);
+        return ResponseEntity.ok(purchaseOrder.getStatus());
     }
 
     @DeleteMapping("{orderId}")

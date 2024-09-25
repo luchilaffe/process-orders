@@ -7,8 +7,7 @@ import org.jmolecules.ddd.annotation.Service;
 public interface IOrderService {
 
     PurchaseOrder createOrder(PurchaseOrder purchaseOrder);
-    PurchaseOrder getOrderStatus(String orderId);
+    PurchaseOrder getOrder(String orderId);
     void cancelOrder(String orderId);
-
     PurchaseOrder processOrder(PurchaseOrder purchaseOrder);
 }
