@@ -5,6 +5,7 @@ import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.syntax.ArchRuleDefinition;
 import jakarta.persistence.Entity;
+import org.jmolecules.archunit.JMoleculesDddRules;
 import org.jmolecules.ddd.annotation.AggregateRoot;
 import org.jmolecules.ddd.annotation.ValueObject;
 
@@ -69,6 +70,11 @@ public class ArchitectureTest {
                         "..infrastructure.."
                 )
                 .check(importedClasses);
+    }
+
+    @ArchTest
+    void checkDDDRules(JavaClasses importedClasses) {
+        JMoleculesDddRules.all().check(importedClasses);
     }
 
 }
