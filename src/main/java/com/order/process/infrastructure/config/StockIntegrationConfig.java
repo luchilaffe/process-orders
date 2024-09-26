@@ -1,6 +1,6 @@
 package com.order.process.infrastructure.config;
 
-import com.order.process.domain.repository.IInventoryRepository;
+import com.order.process.application.IInventoryService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.integration.annotation.ServiceActivator;
@@ -15,12 +15,13 @@ import org.springframework.messaging.MessageHandler;
 @EnableIntegration
 public class StockIntegrationConfig {
 
+    private static final String PRODUCT_ID = "productId";
     private static final String CHANNEL_NAME = "stockChannel";
 
-    private final IInventoryRepository inventoryRepository;
+    private final IInventoryService inventoryService;
 
-    public StockIntegrationConfig(IInventoryRepository inventoryRepository) {
-        this.inventoryRepository = inventoryRepository;
+    public StockIntegrationConfig(IInventoryService inventoryService) {
+        this.inventoryService = inventoryService;
     }
 
     @Bean
@@ -40,9 +41,9 @@ public class StockIntegrationConfig {
     @ServiceActivator(inputChannel = CHANNEL_NAME)
     public MessageHandler stockHandler() {
         return  message -> {
-            String productId = (String) message.getHeaders().get("productId");
+            String productId = (String) message.getHeaders().get(PRODUCT_ID);
             int quantity = (int) message.getPayload();
-            inventoryRepository.newQuantity(productId, quantity);
+            inventoryService.updateInventory(productId, quantity);
         };
     }
 
