@@ -1,7 +1,8 @@
-package com.order.process.infrastructure.repository;
+package com.order.process.infrastructure.repository.impl;
 
 import com.order.process.domain.model.Inventory;
 import com.order.process.domain.repository.IInventoryRepository;
+import com.order.process.infrastructure.repository.InventoryRepositoryJpa;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 

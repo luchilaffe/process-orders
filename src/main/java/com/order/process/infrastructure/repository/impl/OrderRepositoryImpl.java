@@ -1,7 +1,8 @@
-package com.order.process.infrastructure.repository;
+package com.order.process.infrastructure.repository.impl;
 
 import com.order.process.domain.model.PurchaseOrder;
 import com.order.process.domain.repository.IOrderRepository;
+import com.order.process.infrastructure.repository.OrderRepositoryJpa;
 import jakarta.persistence.EntityExistsException;
 import org.springframework.stereotype.Repository;
 
