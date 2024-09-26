@@ -1,5 +1,6 @@
-package com.order.process.infrastructure.batch;
+package com.order.process.application.adapter;
 
+import com.order.process.application.IEmailService;
 import com.order.process.domain.model.PurchaseOrder;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -13,7 +14,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class EmailService {
+public class EmailService implements IEmailService {
+
+    private static final String MUSTACHE_FILE = "orderProcessed.mustache";
+    private static final String CONTENT_EXCEPTION = "Failed to generate email content";
 
     private final JavaMailSender mailSender;
     private final MustacheViewResolver mustacheViewResolver;
@@ -23,6 +27,7 @@ public class EmailService {
         this.mustacheViewResolver = mustacheViewResolver;
     }
 
+    @Override
     public void sendOrderProcessedEmail(PurchaseOrder purchaseOrder) throws MessagingException{
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
@@ -41,10 +46,10 @@ public class EmailService {
     private String generateEmailContent(Map<String, Object> model) {
         StringWriter writer = new StringWriter();
         try {
-            mustacheViewResolver.setViewNames("orderProcessed.mustache");
+            mustacheViewResolver.setViewNames(MUSTACHE_FILE);
             mustacheViewResolver.setAttributesMap(model);
         } catch (Exception e) {
-            throw new RuntimeException("Failed to generate email content", e);
+            throw new RuntimeException(CONTENT_EXCEPTION, e);
         }
         return writer.toString();
     }

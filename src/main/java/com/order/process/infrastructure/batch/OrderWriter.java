@@ -1,5 +1,6 @@
 package com.order.process.infrastructure.batch;
 
+import com.order.process.application.IEmailService;
 import com.order.process.domain.model.PurchaseOrder;
 import org.springframework.batch.item.Chunk;
 import org.springframework.batch.item.ItemWriter;
@@ -8,9 +9,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class OrderWriter implements ItemWriter<PurchaseOrder> {
 
-    private final EmailService emailService;
+    private final IEmailService emailService;
 
-    public OrderWriter(EmailService emailService) {
+    public OrderWriter(IEmailService emailService) {
         this.emailService = emailService;
     }
 
